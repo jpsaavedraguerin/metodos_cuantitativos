@@ -4,7 +4,8 @@ author: "Juan Pablo Saavedra"
 date: "8/28/2020"
 output: html_document
 ---
-## 
+
+Repositorio: [github](jpsaavedraguerin/metodos-cuantitativos)
 
 ## Datos
 
