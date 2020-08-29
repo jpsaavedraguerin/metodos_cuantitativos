@@ -12,16 +12,10 @@ ANOVA de dos factores se utiliza para estudiar el efecto que tienen dos variable
 Slide With Code
 ========================================================
 
-```{r}
-summary(cars)
-```
 
 Slide With Plot
 ========================================================
 
-```{r, echo=FALSE}
-plot(cars)
-```
 
 Referencias
 ========================================================
