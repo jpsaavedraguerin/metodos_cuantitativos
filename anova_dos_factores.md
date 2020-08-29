@@ -65,11 +65,7 @@ $$gl_{(A \wedge B)} = gl_{A}*gl_{B} = (p-1)*(q-1)$$
 
 ## Formalización del modelo
 
-
-
 # Ejemplo
-
-
 
 # Referencias
 
