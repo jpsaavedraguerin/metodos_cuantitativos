@@ -1,7 +1,3 @@
-/////////////////////////////////  
-| Repositorio: [github](https://github.com/jpsaavedraguerin/metodos-cuantitativos) |  
-////////////////////////////////   
-
 ## Análisis factorial de varianza - ANOVA de dos factores
 
 ANOVA de dos factores es una extensión de ANOVA de un factor. En el de un factor se etudia el efecto de un factor sobre la variale de decición, mientras que en el de dos factores, el efecto de dos favtores en la variable de decisión es simultáneamente estudiado. 
