@@ -5,7 +5,7 @@ date: "8/28/2020"
 output: html_document
 ---
 
-Repositorio: [github](jpsaavedraguerin/metodos-cuantitativos)
+El repositorio se encuentra en : [github](jpsaavedraguerin/metodos-cuantitativos)
 
 ## Datos
 
