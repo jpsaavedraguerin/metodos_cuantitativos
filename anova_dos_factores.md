@@ -15,7 +15,6 @@ Ventajas:
 - Se puede probar la independencia de los factores siempre que haya mas de una observación por celda (el numero de observaciones por celda debe ser el mismo). En ANOVA de un factor, se debe tener un número dispar de observaciones en cada grupo. 
 - Además de reducir el error de variabilidad, ANOVA de dos factores reduce el cálculo, ya que incluye varios ANOVA de un factor. 
 
-
 ## Principios 
 
 Al diseñar experimentos, y con el objetivo de minimizar el error de varianza, se deben considerar tres principios: aletoriedad, replicación y control local. Estos permiten una mejor posición al concluir si la variación de la variable de decisión es debida un nivel identificable de un factor en particular.   
@@ -69,6 +68,8 @@ $$gl_{(A \wedge B)} = gl_{A}*gl_{B} = (p-1)*(q-1)$$
 
 
 # Ejemplo
+
+
 
 # Referencias
 
