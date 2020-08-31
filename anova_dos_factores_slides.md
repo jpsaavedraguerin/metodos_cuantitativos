@@ -9,12 +9,23 @@ Definición inicial
 
 ANOVA de dos factores se utiliza para estudiar el efecto que tienen dos variables independientes sobre una variable dependiente.
 
-Slide With Code
+Ventajas
 ========================================================
+ 
+- permite estudiar el efecto de dos factores en la variable de decisión y el efecto de la interacción entre ellas.   
+- Permite reducir la varianza del error ya que hay dos fuentes de variación posibles, y por lo tanto hace el diseño más eficiente.  
+
+**Ventajas sobre ANOVA de un factor:**
+
+- Debido a que la variación puede explicarse por dos posibles causas, reduce el error de variabilidad. Es más eficiente. 
+- Se puede probar la independencia de los factores siempre que haya mas de una observación por celda (el numero de observaciones por celda debe ser el mismo). 
+- Reduce el cálculo, ya que incluye varios ANOVA de un factor. 
+
+Modelo
+========================================================
+![](img/Modelo2Factores.PNG)
 
 
-Slide With Plot
-========================================================
 
 
 Referencias

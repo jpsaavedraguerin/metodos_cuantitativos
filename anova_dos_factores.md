@@ -2,7 +2,7 @@
 
 ANOVA de dos factores es una extensión de ANOVA de un factor. En el de un factor se etudia el efecto de un factor sobre la variale de decición, mientras que en el de dos factores, el efecto de dos favtores en la variable de decisión es simultáneamente estudiado. 
 
-Un analisis de dos factores se diseña con el objetivo de comparar el efecto de multiples nivels de dos factores simultaneamentes en la variable de decisión. ANOVA de dos factores se realiza en dos situaciones: primero, cuando hay una observación por celda y, segundo, cuando hay mas de una observación por celda. En este ultimo caso, es necesario que las celdas tenga el mismo numero de observaciones. Usar ANOVA de dos factores con n observaciones permite verificar si hay interacción entre los dos factores. 
+Un analisis de dos factores se diseña con el objetivo de comparar el efecto de multiples nivelEs de dos factores simultaneamentes en la variable de decisión. ANOVA de dos factores se realiza en dos situaciones: primero, cuando hay una observación por celda y, segundo, cuando hay mas de una observación por celda. En este ultimo caso, es necesario que las celdas tenga el mismo numero de observaciones. Usar ANOVA de dos factores con n observaciones permite verificar si hay interacción entre los dos factores. 
 
 Ventajas:   
 - permite estudiar el efecto de dos factores en la variable de decisión y el efecto de la interacción entre ellas.   
@@ -108,7 +108,7 @@ $$y_{ijk}=\mu+\alpha_{i}+\beta{j}+(\alpha\beta)_{ij}+\epsilon_{ijk},$$
 
 $$\sum_{i=1}^a\alpha_{i}=0,\ \ \sum_{j=1}^b\beta_{j}=0,\ \ \sum_{i=1}^a (\alpha\beta)_{ij}=0,\ \ \sum_{j=1}^b (\alpha\beta)_{ij}=0.$$
 
-## Hipótesis a probar:##
+## Hipótesis a probar:
 
 <ol>
 <li>
@@ -144,7 +144,7 @@ Si dividimos cada una de las sumas de los cuadrados en el lado derecho de la ide
 
 $$S_{1}^{2}=\frac{SCA}{a-1},\ \ \ S_{2}^{2}=\frac{SCB}{b-1},\ \ \ S_{3}^{2}=\frac{SC(AB)}{(a-1)(b-1)},\ \ \ S^{2}=\frac{SCE}{ab(n-1)}$$
 
-Todos estos estimadores de la varianza son estimados independiendes de $\sigma^{2}$, siempre que no haya efectos $\alpha_{i}$, $\beta{j}$ ni, por supuesto, $(\alpha\beta)_{ij}$. Si las sumas de los cuadrados se interpretan como funciones de las variables aleatorias independientes $y_{111}, y{112},\dots,y_{abn}, no es difícil comprobar que: 
+Todos estos estimadores de la varianza son estimados independiendes de $\sigma^{2}$, siempre que no haya efectos $\alpha_{i}$, $\beta{j}$ ni, por supuesto, $(\alpha\beta)_{ij}$. Si las sumas de los cuadrados se interpretan como funciones de las variables aleatorias independientes $y_{111}, y{112},\dots,y_{abn}$, no es difícil comprobar que: 
 
 $$E(S_{1}^{2})=E[\frac{SCA}{a-1}] = \sigma^2 +\frac{nb}{a-1}\sum_{i=1}^a\alpha_{i}^{2},$$
   
@@ -163,19 +163,19 @@ De lo anterior se observa que los cuatro estimadores son no sesgados cuando $H_{
 
 $$f_{1}=\frac{S_{1}^{2}}{S^{2}},$$
 
-que es un valor de la variable aleatoria $F_{1}$~$F_{((a-1),(ab(n-1))}$ cuando $H_{0}'$. Se rechaza la hipótesis nula al nivel de significncia $\alpha$ cuando $f_{1} > f_{\alpha}[a-1,ab(n-1)]$.
+que es un valor de la variable aleatoria $F_{1}$~$F_{((a-1),(ab(n-1))}$ cuando $H_{0}'$ es verdadera. Se rechaza la hipótesis nula al nivel de significncia $\alpha$ cuando $f_{1} > f_{\alpha}[a-1,ab(n-1)]$.
 
 - Prueba F para Factor B
 
 $$f_{2}=\frac{S_{2}^{2}}{S^{2}},$$
 
-que es un valor de la variable aleatoria $F_{2}$~$F_{((b-1),(ab(n-1))}$ cuando $H_{0}''$. Se rechaza la hipótesis nula al nivel de significncia $\alpha$ cuando $f_{2} > f_{\alpha}[b-1,ab(n-1)]$.
+que es un valor de la variable aleatoria $F_{2}$~$F_{((b-1),(ab(n-1))}$ cuando $H_{0}''$ es verdadera. Se rechaza la hipótesis nula al nivel de significncia $\alpha$ cuando $f_{2} > f_{\alpha}[b-1,ab(n-1)]$.
 
 - Prueba F para interacción
 
 $$f_{3}=\frac{S_{3}^{2}}{S^{2}},$$
 
-que es un valor de la variable aleatoria $F_{3}$~$F_{((a-1)(b-1),(ab(n-1))}$ cuando $H_{0}'''$. Se rechaza la hipótesis nula al nivel de significncia $\alpha$ cuando $f_{3} > f_{\alpha}[(a-1)(b-1),ab(n-1)]$.
+que es un valor de la variable aleatoria $F_{3}$~$F_{((a-1)(b-1),(ab(n-1))}$ cuando $H_{0}'''$ es verdadera. Se rechaza la hipótesis nula al nivel de significncia $\alpha$ cuando $f_{3} > f_{\alpha}[(a-1)(b-1),ab(n-1)]$.
 
   
   

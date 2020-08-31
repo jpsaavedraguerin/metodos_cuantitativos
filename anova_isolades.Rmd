@@ -1,0 +1,267 @@
+---
+title: "anova_isolades"
+author: "Juan Pablo Saavedra"
+date: "8/30/2020"
+output: ioslides_presentation
+---
+
+<style type="text/css">
+body, td {
+   font-size: 14px;
+}
+code.r{
+  font-size: 20px;
+}
+pre {
+  font-size: 18px
+}
+.col2 {
+    columns: 2 200px;         /* number of columns and width in pixels*/
+    -webkit-columns: 2 200px; /* chrome, safari */
+    -moz-columns: 2 200px;    /* firefox */
+  }
+  .col3 {
+    columns: 3 100px;
+    -webkit-columns: 3 100px;
+    -moz-columns: 3 100px;
+  }
+</style>
+```{r include=FALSE}
+knitr::opts_chunk$set(comment=NA, echo=FALSE)
+
+```
+
+```{r include="FALSE" }
+library(ggplot2)
+library(ggpubr)
+library(tidyverse)
+library(broom)
+library(AICcmodavg)
+library(car) ##LaveneTest
+## Cargar datos
+dataSet<-read.csv("crop.data.csv",TRUE, ",",colClasses = c("factor","factor","factor","numeric"))
+## Renombrar columnas
+dataSet <- rename(dataSet, densidad="density", fertilizante="fertilizer", bloque="block", desempeño="yield")
+dataSet <- select(dataSet, c(densidad, fertilizante, desempeño))
+```
+
+
+## Introducción
+
+ANOVA: Análisis de varianza. 
+
+Permite estudiar el efecto de factores (con sus respectivos niveles) en una variable de respuesta (continua).
+
+
+## Ventajas
+
+- Estudia el efecto de **dos factores** en la variable de decision y el efecto de la **interacción entre ellas**. 
+
+- Reduce la variabilidad del error. 
+
+- Puede probar la independencia de los factores (siempre que haya mas de una observación por celda). 
+
+- Reduce el cálculo, ya que incluye varios ANOVA de un factor. 
+
+## Modelo 
+
+### Condiciones del modelo: 
+1. El tamaño de muestra en cada celda debe ser el mismo. 
+
+### Supuestos del modelo
+
+1. Las poblaciones desde donde se toman las muestras se distribuyen normalmente. 
+2. Las muestras son independientes. 
+3. La varianza de las poblaciones debe ser igual (homocedasticidad)
+4. El tamaño de muestra debe ser igual en cada celda. 
+
+
+## Modelo formal
+
+<div class="centered">
+![](img/Modelo2Factores.PNG)
+</div>
+
+## Modelo formal - simbología?
+
+Se definen los siguientes símbolos: 
+
+<font size="4">
+
+$Y_{ij} =suma\ de\ las\ observaciones\ en\ la\ (ij)-ésima\ celda,$
+
+$Y_{i..} =suma\ de\ las\ observaciones\ para\ el\ i-ésimo\ nivel\ factor\ A,$
+
+$Y_{.j.} =suma\ de\ las\ observaciones\ para\ el\ j-ésimo\ nivel\ factor\ B,$
+
+$Y_{...} = suma\ de\ las\ a*b*n\ observaciones,$
+
+$\bar{y}_{ij} = media\ de\ las\ observaciones\ en\ la\ (ij)-ésima\ celda,$
+
+$\bar{y}_{i..} = media\ de\ las\ observaciones\ para\ el\ i-ésimo\ nivel\ factor\ A,$
+
+$\bar{y}_{.j.} = media\ de\ las\ observaciones\ para\ el\ j-ésimo\ nivel\ factor\ B,$
+
+$\bar{y}_{...} = media\ de\ todas\ las\ a*b*n\ observaciones.$
+</font>
+
+## Modelo - continuación
+
+Podemos escribir cada observación de la tabla como: 
+$$y_{ijk} = \mu_{ij} + \epsilon_{ijk} \ (1)$$
+<font size="3">
+$\epsilon_{ijk}$: desviaciones de los valores de $y_{ijk}$ observados en la $(ji)$-$ésima$ celda respecto de la media de la población $\mu_{ij}.$
+</font>
+
+Si consideramos  $\mu_{ij}$ como:
+$$\mu_{ij}=\mu+\alpha_{i}+\beta_{j}+(\alpha\beta)_{ij} \ (2)$$
+(2) en (1): 
+$$y_{ijk}=\mu+\alpha_{i}+\beta_{j}+(\alpha\beta)_{ij}+\epsilon_{ijk},$$
+<font size="2">
+$$\sum_{i=1}^a\alpha_{i}=0,\ \ \sum_{j=1}^b\beta_{j}=0,\ \ \sum_{i=1}^a (\alpha\beta)_{ij}=0,\ \ \sum_{j=1}^b (\alpha\beta)_{ij}=0.$$
+</font>
+
+## Hipótesis del modelo
+<ol>
+<li><p>
+$H_{0}':\ \alpha_{1} = \alpha_{2} = \dots = \alpha_{a} = 0$,<br>
+$H_{1}': Al\ menos\ una\ de\ las\ \alpha_{i} no\ es\ igual a\ 0.$</p>
+</li>
+<li><p>
+$H_{0}'':\ \beta{1} = \beta{2} = \dots = \beta{b} = 0$,<br>
+$H_{1}'': Al\ menos\ una\ de\ las\ \beta{i} no\ es\ igual a\ 0.$</p>
+</li>
+<li><p>
+$H_{0}''':\ \alpha\beta{11} = \alpha\beta{12} = \dots = \alpha\beta{ab} = 0$,<br>
+$H_{1}''': Al\ menos\ una\ de\ las\ (\alpha\beta{ij}) no\ es\ igual a\ 0.$</p>
+</li>  
+<br>
+Las pruebas de hipótesis anteriores se basarán en la comparación de estimados independientes de $\sigma^{2}$, obtenidos al separar la suma de cuadrados total de los datos en cuatro componentes.
+
+## Recordatorio: Identidad de la suma de cuadrados. 
+<font size="2">
+$$\sum_{i=1}^a{\sum_{j=1}^b{\sum_{k=1}^n}} (y_{ijk}-\bar{y}_{\dots})^2 = bn\sum_{i=1}^a (\bar{y}_{i..} - \bar{y}_{\dots})^2 + an\sum_{j=1}^b (\bar{y}_{.j.} - \bar{y}_{\dots})^2 + n\sum_{i=1}^a{\sum_{j=1}^b}{(\bar{y}_{ij.} -\bar{y}_{i..} - \bar{y}_{.j.} + \bar{y}_{\dots})^2} + \sum_{i=1}^a{\sum_{j=1}^b{\sum_{k=1}^n}} {(y_{ijk}-\bar{y}_{ij})^2}$$
+</font>
+
+Lo anterior podemos expresarlo simbólicamente como: 
+$$SCT = SCA + SCB + SC(AB) + SCE$$
+Grados de libertad 
+$$abn -1 = (a-1) + (b-1) + (a-1)(b-1)+ab(n-1)$$
+
+## Estadísticos 
+<font size="3">
+$$S_{1}^{2}=\frac{SCA}{a-1},\ \ \ S_{2}^{2}=\frac{SCB}{b-1},\ \ \ S_{3}^{2}=\frac{SC(AB)}{(a-1)(b-1)},\ \ \ S^{2}=\frac{SCE}{ab(n-1)}$$
+
+
+Todos estos estimadores de la varianza son estimados independiendes de $\sigma^{2}$, siempre que no haya efectos $\alpha_{i}$, $\beta{j}$ ni, por supuesto, $(\alpha\beta)_{ij}$. Si las sumas de los cuadrados se interpretan como funciones de las variables aleatorias independientes $y_{111}, y{112},\dots,y_{abn}$, no es difícil comprobar que: 
+
+$$E(S_{1}^{2})=E[\frac{SCA}{a-1}] = \sigma^2 +\frac{nb}{a-1}\sum_{i=1}^a\alpha_{i}^{2},$$
+  
+$$E(S_{2}^{2})=E[\frac{SCB}{b-1}] = \sigma^2 +\frac{na}{b-1}\sum_{j=1}^a\beta_{j}^{2},$$
+  
+$$E(S_{3}^{2})=E[\frac{SC(AB)}{(a-1)(b-1)}] = \sigma^2 + \frac{n}{(a-1)(b-1)} \sum_{i=1}^a{\sum_{j=1}^b}{(\alpha\beta)_{ij}},$$
+$$E[S^{2}]=E[\frac{SCE}{ab(n-1)}] = \sigma^2$$
+
+De lo anterior se observa que los cuatro estimadores son **no sesgados** cuando $H_{0}', H_{0}'' y H_{0}'''$ son verdaderas.
+</font>
+
+## Comprobación de hipótesis nula
+<font size="3">
+**Prueba F para Factor A:**
+
+$$f_{1}=\frac{S_{1}^{2}}{S^{2}}, F_{1}\~  F_{((a-1),(ab(n-1))}\  cuando\ H_{0}'\ es\ verdadera$$
+
+Se rechaza $H_{0}'$ al nivel de significancia $\alpha$ cuando $f_{1} > f_{\alpha}[a-1,ab(n-1)]$.
+
+**Prueba F para Factor B**
+
+$$f_{2}=\frac{S_{2}^{2}}{S^{2}}, F_{2}\~F_{((b-1),(ab(n-1))} cuando\ H_{0}''\ es\ verdadera$$.
+
+Se rechaza $H_{0}''$ al nivel de significancia $\alpha$ cuando $f_{2} > f_{\alpha}[b-1,ab(n-1)]$.
+
+**Prueba F para interacción**
+
+$$f_{3}=\frac{S_{3}^{2}}{S^{2}}, F_{3}\~F_{((a-1)(b-1),(ab(n-1))} cuando\ $H_{0}'''\ es\ verdadera.$$
+
+Se rechaza $H_{0}'''$ al nivel de significancia $\alpha$ cuando $f_{3} > f_{\alpha}[(a-1)(b-1),ab(n-1)]$.
+</font>
+
+## Análisis Post-Hoc
+
+Anova nos permite determinar si es significativo el aporte a la varianza de alguno de los factores o de la interacción, sin embargo para saber si cuál es la fuente de variabilidad se puede usar un test como Turkey HSD.
+
+Además, es recomendable estudiar la interacción y posteriormente cada factor por separado. 
+
+
+## Aplicación
+
+<div class="row centered">
+<div class="col2">
+### Muestra de datos
+```{r }
+## Muestra de las observaciones
+dataSet[1:20,]
+```
+### Resumen de datos
+```{r }
+## Resumen de datos
+summary(dataSet)
+```
+</div>
+</div>
+
+## Aplicación
+<div class="row centered">
+### Comprobar normalidad
+
+```{r fig.width=4, fig.height=3}
+hist(dataSet$desempeño, main="Histograma variable desempeño", ylab = "Frecuencia", xlab = "Desempeño")
+```
+
+```{r }
+shapiro.test(dataSet$desempeño)
+```
+</div>
+
+## Aplicación
+### Homogeneidad de varianzas
+```{r include=FALSE}
+a.dosfact <- aov(desempeño ~ fertilizante * densidad, data = dataSet)
+```
+<div class="row centered">
+```{r }
+par(mfrow=c(1,2))
+plot(a.dosfact,c(1,2))
+par(mfrow=c(1,1))
+```
+</div>
+
+## Aplicación
+### Homogeneidad de varianzas
+
+```{r }
+#Bartlett Test para homogeneidad de varianzas
+bartlett.test(desempeño ~ interaction(densidad, fertilizante), data = dataSet)
+
+#LaveneTest
+leveneTest(desempeño ~ densidad * fertilizante , data = dataSet)
+```
+
+## Apliacación 
+### Resultados ANOVA
+```{r}
+summary(a.dosfact)
+```
+
+## Aplicación
+### Análisis post-hoc
+```{r}
+TukeyHSD(a.dosfact) 
+```
+
+## Aplicacíón
+### Grafico de interacción
+
+```{r }
+interaction.plot(dataSet$densidad,dataSet$fertilizante,dataSet$desempeño)
+```
