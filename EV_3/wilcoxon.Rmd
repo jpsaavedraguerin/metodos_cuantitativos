@@ -6,25 +6,62 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, comment = NA)
 ```
 
-## R Markdown
+## Introducción
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+Metodos paramétricos: Suposición normalidad, tamaño de muestra grande. 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Métodos no paramétricos (distribución libre): No se supone un conocimiento de ninguna clase respecto de las distribuciones de las poblaciones subyacentes (continuidad).
 
-```{r cars}
-summary(cars)
-```
+Desventajas
 
-## Including Plots
+- No utilizan toda la información que proporciona la muestra: si se pueden aplicar ambos métodos, no paramétricos reporta menos eficiencia. 
 
-You can also embed plots, for example:
+- Requiere un tamaño de muestra mayor que paramétrica.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
+- Afecta pruebas t y F.
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+## Prueba de signo
+
+- Permite probar la $H_{0}: \mu = \mu_{0}$ en poblaciones con $n<30$ y no normal.
+
+## Prueba de rango (Wilcoxon)
+
+Prueba propuesta por Frank Wilcoxon en 1945 que amplía la prueba de signo para incluir también la magnitud. 
+
+- Se aplica en el caso de contar con una distribución continua simétrica. 
+- Se prueba la hipótesis nula $H_{0}:\hat{\mu}=\hat{\mu_{0}}$. Primero restando $\hat\mu_{0}$ de cada valor muestral y descartando las diferencias iguals a cero. 
+
+- Diferencias restantes se ordenan sin importar el signo. 
+
+- Se asigna una categoría de la diferencia absoluta mas pequeña, es decir, sin signo, una categoría de 2 a la siguiente mas pequéña, y así sucesivamente. 
+
+- Cuando el valor absoluto de dos o más diferencias es el mismo, se asigna a cada uno el promedio de los rangos que se asignarían si la diferencias fueran distinguibles. 
+
+Ejemplo: Si la quinta hy la sexta diferencias mas pequeñas tienen el mismo valor absoluto, a cada una se le asignatía una categiría 5.5
+
+- Si la hipótesis $H_{0}:\hat{\mu}=\hat{\mu_{0}}$ es verdadera, el total de lso rangos corresponden a las diferencias positivas debería ser casi igual al total de los rangos que corresponden a las diferencias negativas. 
+
+- Representaremos estos totales con $w_{+}$ y $w_{-}$, respectivamente, y al mas pequeño de $w_{+}$ y $w_{-}$ con $w$.
+
+- Al seleccionar muestras repetidas esperaríamos que w+ y w- y por lo tanto w variara. 
+
+- De esta manera, consideramos a w+, w- y w como valores de las correspondientes variables aleatorias W+, W- y W. 
+
+- La hipótesis nula $H_{0}:\hat{\mu}=\hat{\mu_{0}}$ se puede rechazar a favor de la Hipótesis alternativa $H_{1}:\hat{\mu}<\hat{\mu_{0}}$ sólo si $w_{+}$ es pequeña y $w_{-}$ es grande. 
+
+- La hipótesis nula $H_{0}:\hat{\mu}=\hat{\mu_{0}}$ se puede rechazar a favor de la Hipótesis alternativa $H_{1}:\hat{\mu>\hat{\mu_{0}}$ sólo si $w_{-}$ es grande y $w_{-}$ es pequeña.
+
+- Para una alternativa bilateral se puede rechazar $H_{0}$ a favor de $H_{1}$ si $w_{+}$ y $w_{-}$, y en consecuencia, $w$ son suficientemente pequeñas.
+
+- Por lo tanto, no importa cuál sea la hipótesis alternativa, cuando el valor del estadístico adecuado $W_{+}$, $W_{-}$ o $W$ es suficientemente pequeño, se rechaza la hipótesis nula. 
+
+
+## Principios
+
+- Si z i = y i − x i {\displaystyle z_{i}=y_{i}-x_{i}} {\displaystyle z_{i}=y_{i}-x_{i}}, entonces los valores z i {\displaystyle z_{i}} {\displaystyle z_{i}} son independientes.
+
+- Los valores z i {\displaystyle z_{i}} {\displaystyle z_{i}} tienen una misma distribución continua y simétrica respecto a una mediana común θ {\displaystyle \theta } \theta .
+ 

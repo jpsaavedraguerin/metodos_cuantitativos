@@ -1,8 +1,10 @@
 ---
-title: "Análisis multifactorial: dos factores."
+title: 'Análisis multifactorial: dos factores.'
 author: "Juan Pablo Saavedra"
 date: "8/30/2020"
-output: ioslides_presentation
+output:
+  ioslides_presentation: default
+  beamer_presentation: default
 ---
 
 <style type="text/css">
@@ -56,6 +58,8 @@ a.dosfact <- aov(desempeño ~ fertilizante * densidad, data = dataSet)
 ANOVA: Análisis de varianza. 
 
 Permite estudiar el efecto de dos variables llamadas factores (con sus respectivos niveles) sobra  una variable de cuantitativa (continua).
+
+Herramientas relacionadas : Shapiro-Wilks, Laverne, Tukey's HSD (honestly significant difference).
 
 Por ejemplo: 
 
