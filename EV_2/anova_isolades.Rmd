@@ -30,8 +30,11 @@ pre {
 knitr::opts_chunk$set(comment=NA, echo=FALSE)
 
 ```
-
+```{r setup, include=FALSE}
+library(icon)
+```
 ```{r include="FALSE" }
+
 library(ggplot2)
 library(ggpubr)
 library(tidyverse)
@@ -43,7 +46,9 @@ dataSet<-read.csv("crop.data.csv",TRUE, ",",colClasses = c("factor","factor","fa
 ## Renombrar columnas
 dataSet <- rename(dataSet, densidad="density", fertilizante="fertilizer", bloque="block", desempeño="yield")
 dataSet <- select(dataSet, c(densidad, fertilizante, desempeño))
+a.dosfact <- aov(desempeño ~ fertilizante * densidad, data = dataSet)
 ```
+
 
 
 ## Introducción
@@ -55,6 +60,7 @@ Permite estudiar el efecto de dos variables llamadas factores (con sus respectiv
 Por ejemplo: 
 
 - Determinar el efecto sobre la motivación en el trabajo de la edad y el género.
+- Efecto del tiempo (lento, medio, rapido) y temperatura (baja, media, alta) sobre una reacción química.
 
 ## Ventajas
 
@@ -68,9 +74,6 @@ Por ejemplo:
 
 ## Modelo 
 
-### Condiciones del modelo: 
-1. El tamaño de muestra en cada celda debe ser el mismo. 
-
 ### Supuestos del modelo
 
 1. Las poblaciones desde donde se toman las muestras se distribuyen normalmente. 
@@ -82,8 +85,15 @@ Por ejemplo:
 ## Modelo formal
 
 <div class="centered">
-![](img/Modelo2Factores.PNG)
+```{r, out.width = "500px", fig.align='center'}
+knitr::include_graphics("img/Modelo2Factores.PNG")
+```
+
+<font size="2">
+**Probabilidad y estadística para ingeniería y ciencias**. Ronald E. Walpole, R. H. Myers, S. L. Myers, K. Ye, 9na ED, PEARSONS EDUCACIÓN, México, 2012. p. 565
+</font>
 </div>
+
 
 ## Modelo formal - simbología
 
@@ -215,9 +225,10 @@ summary(dataSet)
 </div>
 
 ## Aplicación
-<div class="row centered">
-### Comprobar normalidad
 
+**Comprobar normalidad**
+<div class="row centered">
+<div class="col2">
 ```{r fig.width=4, fig.height=3}
 hist(dataSet$desempeño, main="Histograma variable desempeño", ylab = "Frecuencia", xlab = "Desempeño")
 ```
@@ -226,25 +237,27 @@ hist(dataSet$desempeño, main="Histograma variable desempeño", ylab = "Frecuenc
 shapiro.test(dataSet$desempeño)
 ```
 </div>
+</div>
 
+<font size="3">
 Histograma presenta una forma similar a distribución normal. Por otro lado, Shapiro Test respecto a la normalidad de los datos es no significativo a un nivel de $\alpha = 0.05$ (valor-p = 0.6135).
+</font>
 
 ## Aplicación
-### Homogeneidad de varianzas
-```{r include=FALSE}
-a.dosfact <- aov(desempeño ~ fertilizante * densidad, data = dataSet)
-```
+**Homogeneidad de varianzas**
 <div class="row centered">
-```{r }
+```{r fig.width=8, fig.height=4}
 par(mfrow=c(1,2))
 plot(a.dosfact,c(1,2))
 par(mfrow=c(1,1))
 ```
 </div>
-
+<font size="3">
 A partir del análisis visual podemos determinar que las varianzas dentro de los grupos es similar. QQPlot muestra gran parte de los datos sobre la línea de "normalidad" con algunos outliers.
+</font>
 
 ## Aplicación
+
 ### Homogeneidad de varianzas
 
 ```{r }
@@ -278,16 +291,26 @@ TukeyHSD(a.dosfact, which=c("densidad","fertilizante"))
 ### Grafico de interacción
 
 ```{r }
+par(mfrow=c(1,2))
 with(data=dataSet, expr ={
   interaction.plot(densidad,fertilizante,response=desempeño)
   interaction.plot(fertilizante,densidad,response=desempeño)
-} )
+})
 
 ```
-## Comparación F-Test
+
+## Comparación t-Test
+
+**desempeño ~ densidad**
 
 ```{r}
 pairwise.t.test(dataSet$desempeño, dataSet$densidad)
+```
+
+## Comparación t-Test
+
+**desempeño ~ fertilizante**
+```{r}
 pairwise.t.test(dataSet$desempeño, dataSet$fertilizante)
 ```
 
@@ -303,15 +326,19 @@ pairwise.t.test(dataSet$desempeño, dataSet$fertilizante)
 - Efecto principal fertilizante mejora rendimiento para el caso 3.
 
 
-## Referencias y repositorio
+## Referencias
 
 - **Data Analysis in Management With SPSS Software**. J.P Verma, Chapter 8, DOI:10.1007/978-81-322-0786-3_8, (C) Springer India 2013
-- **Probabilidad y estadística para ingeniería y ciencias**. Ronald E Walpole, R. H. Myers, S. L. Myers, K. Ye, 9na ED, PEARSONS EDUCACIÓN, México, 2012.  
+- **Probabilidad y estadística para ingeniería y ciencias**. Ronald E. Walpole, R. H. Myers, S. L. Myers, K. Ye, 9na ED, PEARSONS EDUCACIÓN, México, 2012.  
 - **Use R! R by example**. J. Albert, M. Rizzo, SPRINGER at [](DOI 10.1007/978-1-4614-1365-3)
 - [ANOVA in R: A step-by-step guide](https://www.scribbr.com/statistics/anova-in-r/)  
 - [R documentation](https://www.rdocumentation.org/)
 - [Starting at R](https://www.staringatr.com/)
 
-## Licencia y derechoa de autoría
+## Licencia
 
-Esta presentación es y el código R utilizado se encuentran en [jpsaavedraguerin/metodos_cuantitativos](https://github.com/jpsaavedraguerin/metodos_cuantitativos) bajo licencia [MIT](https://github.com/jpsaavedraguerin/metodos_cuantitativos/LICENCE)
+
+```{r}
+icon::fa("github")
+```
+[jpsaavedraguerin/metodos_cuantitativos](https://github.com/jpsaavedraguerin/metodos_cuantitativos) bajo licencia [MIT](https://github.com/jpsaavedraguerin/metodos_cuantitativos/blob/master/LICENCE)
