@@ -1,5 +1,5 @@
 ---
-title: "anova_isolades"
+title: "Análisis multifactorial: dos factores."
 author: "Juan Pablo Saavedra"
 date: "8/30/2020"
 output: ioslides_presentation
@@ -50,8 +50,11 @@ dataSet <- select(dataSet, c(densidad, fertilizante, desempeño))
 
 ANOVA: Análisis de varianza. 
 
-Permite estudiar el efecto de factores (con sus respectivos niveles) en una variable de respuesta (continua).
+Permite estudiar el efecto de dos variables llamadas factores (con sus respectivos niveles) sobra  una variable de cuantitativa (continua).
 
+Por ejemplo: 
+
+- Determinar el efecto sobre la motivación en el trabajo de la edad y el género.
 
 ## Ventajas
 
@@ -82,7 +85,7 @@ Permite estudiar el efecto de factores (con sus respectivos niveles) en una vari
 ![](img/Modelo2Factores.PNG)
 </div>
 
-## Modelo formal - simbología?
+## Modelo formal - simbología
 
 Se definen los siguientes símbolos: 
 
@@ -125,15 +128,15 @@ $$\sum_{i=1}^a\alpha_{i}=0,\ \ \sum_{j=1}^b\beta_{j}=0,\ \ \sum_{i=1}^a (\alpha\
 <ol>
 <li><p>
 $H_{0}':\ \alpha_{1} = \alpha_{2} = \dots = \alpha_{a} = 0$,<br>
-$H_{1}': Al\ menos\ una\ de\ las\ \alpha_{i} no\ es\ igual a\ 0.$</p>
+$H_{1}': Al\ menos\ una\ de\ las\ \alpha_{i}\ no\ es\ igual\ a\ 0.$</p>
 </li>
 <li><p>
-$H_{0}'':\ \beta{1} = \beta{2} = \dots = \beta{b} = 0$,<br>
-$H_{1}'': Al\ menos\ una\ de\ las\ \beta{i} no\ es\ igual a\ 0.$</p>
+$H_{0}'':\ \beta_{1} = \beta_{2} = \dots = \beta_{b} = 0$,<br>
+$H_{1}'': Al\ menos\ una\ de\ las\ \beta_{i}\ no\ es\ igual\ a\ 0.$</p>
 </li>
 <li><p>
-$H_{0}''':\ \alpha\beta{11} = \alpha\beta{12} = \dots = \alpha\beta{ab} = 0$,<br>
-$H_{1}''': Al\ menos\ una\ de\ las\ (\alpha\beta{ij}) no\ es\ igual a\ 0.$</p>
+$H_{0}''':\ \alpha\beta_{11} = \alpha\beta_{12} = \dots = \alpha\beta_{ab} = 0$,<br>
+$H_{1}''': Al\ menos\ una\ de\ las\ (\alpha\beta)_{ij}\ no\ es\ igual\ a\ 0.$</p>
 </li>  
 <br>
 Las pruebas de hipótesis anteriores se basarán en la comparación de estimados independientes de $\sigma^{2}$, obtenidos al separar la suma de cuadrados total de los datos en cuatro componentes.
@@ -150,17 +153,17 @@ $$abn -1 = (a-1) + (b-1) + (a-1)(b-1)+ab(n-1)$$
 
 ## Estadísticos 
 <font size="3">
-$$S_{1}^{2}=\frac{SCA}{a-1},\ \ \ S_{2}^{2}=\frac{SCB}{b-1},\ \ \ S_{3}^{2}=\frac{SC(AB)}{(a-1)(b-1)},\ \ \ S^{2}=\frac{SCE}{ab(n-1)}$$
+$$\hat{S}_{1}^{2}=\frac{SCA}{a-1},\ \ \ \hat{S}_{2}^{2}=\frac{SCB}{b-1},\ \ \ \hat{S}_{3}^{2}=\frac{SC(AB)}{(a-1)(b-1)},\ \ \ \hat{S}^{2}=\frac{SCE}{ab(n-1)}$$
 
 
 Todos estos estimadores de la varianza son estimados independiendes de $\sigma^{2}$, siempre que no haya efectos $\alpha_{i}$, $\beta{j}$ ni, por supuesto, $(\alpha\beta)_{ij}$. Si las sumas de los cuadrados se interpretan como funciones de las variables aleatorias independientes $y_{111}, y{112},\dots,y_{abn}$, no es difícil comprobar que: 
 
-$$E(S_{1}^{2})=E[\frac{SCA}{a-1}] = \sigma^2 +\frac{nb}{a-1}\sum_{i=1}^a\alpha_{i}^{2},$$
+$$E(\hat{S}_{1}^{2})=E[\frac{SCA}{a-1}] = \sigma^2 +\frac{nb}{a-1}\sum_{i=1}^a\alpha_{i}^{2},$$
   
-$$E(S_{2}^{2})=E[\frac{SCB}{b-1}] = \sigma^2 +\frac{na}{b-1}\sum_{j=1}^a\beta_{j}^{2},$$
+$$E(\hat{S}_{2}^{2})=E[\frac{SCB}{b-1}] = \sigma^2 +\frac{na}{b-1}\sum_{j=1}^a\beta_{j}^{2},$$
   
-$$E(S_{3}^{2})=E[\frac{SC(AB)}{(a-1)(b-1)}] = \sigma^2 + \frac{n}{(a-1)(b-1)} \sum_{i=1}^a{\sum_{j=1}^b}{(\alpha\beta)_{ij}},$$
-$$E[S^{2}]=E[\frac{SCE}{ab(n-1)}] = \sigma^2$$
+$$E(\hat{S}_{3}^{2})=E[\frac{SC(AB)}{(a-1)(b-1)}] = \sigma^2 + \frac{n}{(a-1)(b-1)} \sum_{i=1}^a{\sum_{j=1}^b}{(\alpha\beta)_{ij}},$$
+$$E[\hat{S}^{2}]=E[\frac{SCE}{ab(n-1)}] = \sigma^2$$
 
 De lo anterior se observa que los cuatro estimadores son **no sesgados** cuando $H_{0}', H_{0}'' y H_{0}'''$ son verdaderas.
 </font>
@@ -169,26 +172,26 @@ De lo anterior se observa que los cuatro estimadores son **no sesgados** cuando 
 <font size="3">
 **Prueba F para Factor A:**
 
-$$f_{1}=\frac{S_{1}^{2}}{S^{2}}, F_{1}\~  F_{((a-1),(ab(n-1))}\  cuando\ H_{0}'\ es\ verdadera$$
+$f_{1}=\frac{\hat{S}_{1}^{2}}{\hat{S}^{2}}, F_{1}$~$F_{((a-1),(ab(n-1))}\  cuando\ H_{0}'\ es\ verdadera$.
 
 Se rechaza $H_{0}'$ al nivel de significancia $\alpha$ cuando $f_{1} > f_{\alpha}[a-1,ab(n-1)]$.
 
 **Prueba F para Factor B**
 
-$$f_{2}=\frac{S_{2}^{2}}{S^{2}}, F_{2}\~F_{((b-1),(ab(n-1))} cuando\ H_{0}''\ es\ verdadera$$.
+$f_{2}=\frac{\hat{S}_{2}^{2}}{\hat{S}^{2}}, F_{2}$~$F_{((b-1),(ab(n-1))} cuando\ H_{0}''\ es\ verdadera$.
 
 Se rechaza $H_{0}''$ al nivel de significancia $\alpha$ cuando $f_{2} > f_{\alpha}[b-1,ab(n-1)]$.
 
 **Prueba F para interacción**
 
-$$f_{3}=\frac{S_{3}^{2}}{S^{2}}, F_{3}\~F_{((a-1)(b-1),(ab(n-1))} cuando\ $H_{0}'''\ es\ verdadera.$$
+$f_{3}=\frac{\hat{S}_{3}^{2}}{\hat{S}^{2}}, F_{3}$~$F_{((a-1)(b-1),(ab(n-1))}\ cuando\ H_{0}'''\ es\ verdadera.$
 
 Se rechaza $H_{0}'''$ al nivel de significancia $\alpha$ cuando $f_{3} > f_{\alpha}[(a-1)(b-1),ab(n-1)]$.
 </font>
 
 ## Análisis Post-Hoc
 
-Anova nos permite determinar si es significativo el aporte a la varianza de alguno de los factores o de la interacción, sin embargo para saber si cuál es la fuente de variabilidad se puede usar un test como Turkey HSD.
+Anova nos permite determinar si es significativo el aporte a la varianza de alguno de los factores como efectos principales o la interacción, sin embargo, para saber cuál es la fuente de variabilidad se puede usar un test como Turkey HSD o t-test.
 
 Además, es recomendable estudiar la interacción y posteriormente cada factor por separado. 
 
@@ -203,6 +206,7 @@ Además, es recomendable estudiar la interacción y posteriormente cada factor p
 dataSet[1:20,]
 ```
 ### Resumen de datos
+
 ```{r }
 ## Resumen de datos
 summary(dataSet)
@@ -223,6 +227,8 @@ shapiro.test(dataSet$desempeño)
 ```
 </div>
 
+Histograma presenta una forma similar a distribución normal. Por otro lado, Shapiro Test respecto a la normalidad de los datos es no significativo a un nivel de $\alpha = 0.05$ (valor-p = 0.6135).
+
 ## Aplicación
 ### Homogeneidad de varianzas
 ```{r include=FALSE}
@@ -236,6 +242,8 @@ par(mfrow=c(1,1))
 ```
 </div>
 
+A partir del análisis visual podemos determinar que las varianzas dentro de los grupos es similar. QQPlot muestra gran parte de los datos sobre la línea de "normalidad" con algunos outliers.
+
 ## Aplicación
 ### Homogeneidad de varianzas
 
@@ -247,30 +255,63 @@ bartlett.test(desempeño ~ interaction(densidad, fertilizante), data = dataSet)
 leveneTest(desempeño ~ densidad * fertilizante , data = dataSet)
 ```
 
+Ambos test arrojan resultados no sgnificativos a un nivel de $\alpha = 0.05$ (valor-p 0.9631 y 0.9768).
+
 ## Apliacación 
 ### Resultados ANOVA
 ```{r}
 summary(a.dosfact)
 ```
 
+- No hay significancia del efecto de la interacción a un nivel $\alpha = 0.05$ (valor-p = 0.53250)
+- Efectos principales fertilizante y densidad presentan alto nivel de significancia.
+
 ## Aplicación
 ### Análisis post-hoc
 ```{r}
-TukeyHSD(a.dosfact) 
+##Test tukey considerando factores principales
+##no se presenta resultado sobre interacción puesto que es no significativo
+TukeyHSD(a.dosfact, which=c("densidad","fertilizante")) 
 ```
 
 ## Aplicacíón
 ### Grafico de interacción
 
 ```{r }
-interaction.plot(dataSet$densidad,dataSet$fertilizante,dataSet$desempeño)
+with(data=dataSet, expr ={
+  interaction.plot(densidad,fertilizante,response=desempeño)
+  interaction.plot(fertilizante,densidad,response=desempeño)
+} )
+
 ```
+## Comparación F-Test
+
+```{r}
+pairwise.t.test(dataSet$desempeño, dataSet$densidad)
+pairwise.t.test(dataSet$desempeño, dataSet$fertilizante)
+```
+
+- F-test significativo para densidades (1,2) valor-p<0.01
+
+- F-test significativo para (1,3) y (2,3).
+
+- F-test es no significativo para fertilizantes (1,2) a un valor $\alpha = 0.05$
+
+### Conclusión:
+
+- Efecto principal de densidad mejora el rendimiento.
+- Efecto principal fertilizante mejora rendimiento para el caso 3.
+
+
 ## Referencias y repositorio
 
 - **Data Analysis in Management With SPSS Software**. J.P Verma, Chapter 8, DOI:10.1007/978-81-322-0786-3_8, (C) Springer India 2013
 - **Probabilidad y estadística para ingeniería y ciencias**. Ronald E Walpole, R. H. Myers, S. L. Myers, K. Ye, 9na ED, PEARSONS EDUCACIÓN, México, 2012.  
+- **Use R! R by example**. J. Albert, M. Rizzo, SPRINGER at [](DOI 10.1007/978-1-4614-1365-3)
 - [ANOVA in R: A step-by-step guide](https://www.scribbr.com/statistics/anova-in-r/)  
 - [R documentation](https://www.rdocumentation.org/)
 - [Starting at R](https://www.staringatr.com/)
+
+## Licencia y derechoa de autoría
 
 Esta presentación es y el código R utilizado se encuentran en [jpsaavedraguerin/metodos_cuantitativos](https://github.com/jpsaavedraguerin/metodos_cuantitativos) bajo licencia [MIT](https://github.com/jpsaavedraguerin/metodos_cuantitativos/LICENCE)
