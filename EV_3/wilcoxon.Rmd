@@ -11,9 +11,11 @@ knitr::opts_chunk$set(echo = FALSE, comment = NA)
 
 ## Introducción
 
-Metodos paramétricos: Suposición normalidad, tamaño de muestra grande. 
+Metodos paramétricos: Supuesto de normalidad y/o tamaño de muestra grande.  
 
-Métodos no paramétricos (distribución libre): No se supone un conocimiento de ninguna clase respecto de las distribuciones de las poblaciones subyacentes (continuidad).
+Métodos no paramétricos (distribución libre): No se supone un conocimiento de ninguna clase respecto de las distribuciones de las poblaciones subyacentes (probable continuidad).
+
+En general, la estrategia implica un *análisis de rangos*.
 
 Desventajas
 

@@ -12,26 +12,54 @@ knitr::opts_chunk$set(echo = FALSE)
 ## Introducción
 
 <font size="4">
-Metodos paramétricos: Suposición normalidad, tamaño de muestra grande. 
+Metodos paramétricos: Supuesto de normalidad y/o tamaño de muestra grande.  $H_{0}: \mu = \mu_{0}$.
 
-Métodos no paramétricos (distribución libre): No se supone un conocimiento de ninguna clase respecto de las distribuciones de las poblaciones subyacentes (continuidad).
-
-- Prueba de signo Permite probar la $H_{0}: \mu = \mu_{0}$ en poblaciones con $n<30$ y no normal.
+Métodos no paramétricos (distribución libre): No se supone un conocimiento de ninguna clase respecto de las distribuciones de las poblaciones subyacentes (probable continuidad). $H_{0}: \tilde{\mu} =\tilde{\mu}_{0}$
 
 - Prueba propuesta por Frank Wilcoxon en 1945 amplía la prueba de signo para incluir también la magnitud.
 
+En general, la estrategia implica un *análisis de rangos*.
+
 **Desventajas**
 
-* No utilizan toda la información que proporciona la muestra: si se pueden aplicar ambos métodos, no paramétricos reporta menos eficiencia.   
+- No utilizan toda la información que proporciona la muestra: si se pueden aplicar ambos métodos, no paramétricos reporta menos eficiencia. 
+- Requiere un tamaño de muestra mayor que paramétrica para igual potencia.
 
-* Requiere un tamaño de muestra mayor que paramétrica.  
-
-* Afecta pruebas t y F.  
+- Afecta pruebas t y F. **ANALIZAR ESTO**
 
 </font>
 
+## Prueba de signo
 
-## Prueba de rango (Wilcoxon)
+**Media** es reemplazada por **mediana** como **parámetro de ubicación**.
+
+Dada una variable aleatória X, la mediana se define de modo que: 
+$$P(X>\tilde{\mu})\leq{0.5}\ y\ P(X<\tilde{\mu})\leq{0.5}$$
+Al probar $H_{0}: \tilde{\mu} =\tilde{\mu}_{0}$ contra la hipótesis alternativa en muestra de tamaño n, reemplazamos cada valor de la muestra con el signo + o - según exceda o sea menor que $\tilde{\mu}_{0}$ respectivamente. 
+
+Población simétrica:se anulan signos y no rechazamos $H_{0}$
+
+Si hay valores muesrales iguales a $\tilde{\mu}_{0}$ se eliminan y se reduce el tamaño de muestra.
+
+## Prueba en la prueba de signos
+
+Estadistico de prueba adecuado para la prueba de signo es la variable aleatoria binomial $X$, que representa el número de signos más en la muestra aleatória. Si la hipótesis hula de que $\tilde{\mu} =\tilde{\mu}_{0}$, la probabilidad de que un valor muestral dé como resultado un signo más o uno menos es igual a $\frac{1}{2}$. Entonces
+para probar la hipótesis nula de que el número de signos más es un valor de una varialbe
+
+$$X\sim{bin(\frac{1}{2})}$$
+
+
+
+## Prueba de rango con signo (Wilcoxon)
+
+Objetivo: Probar la igualdad de medias para muestras no normales y dependientes (emparejadas).
+
+- Toma en consideración además del signo, la magnoitud de las diferencias. 
+
+- Se aplica en el caso de distribucion continua simetrica (no paramétrica).
+
+$$H_{0}: \tilde{\mu} =\tilde{\mu}_{0}$$
+$$H_{0}: \tilde{\mu} \neq \tilde{\mu}_{0}$$
 
 **Supuestos**
 
@@ -39,51 +67,115 @@ Métodos no paramétricos (distribución libre): No se supone un conocimiento de
 
 - Cada par es escogido de forma aleatoria e independiente. 
 
-**Hipótesis**
-
-$H_{0}$: Diferencia entre pares sigue una distribución simétrica alrededor del cero.
-
-$H_{1}$: Diferencia entre pares no sigue una distribución simétrica alrededor del cero.
-
 ## Método
 
-Se calcula el estadístico $W$
+1. Se resta $\tilde{\mu}_{0}$ de cada valor muestral (descartando diferencias nulas).
+1. Se ordenan las diferencias sin importar el signo.
+1. Se asignan categorías a las diferencias, desde la más pequeña a la mas grande (1,2,3....,n). Se promedian diferencias repetidas.
+1. Se suman los rangos para las diferencias positivas $w_{+}$ y las diferencias negativas $w_{-}$
+1. Designamos al más pequeño entre $w_{+}$ y $w_{-}$ como $w$. Es decir $w=min[w_{+},w_{-}]$.
 
-<div class="row centered">
-![](Wilcoxon2.PNG)
-</div>
+Si la hipotesis $\tilde{\mu} =\tilde{\mu}_{0}$ es verdadera, los rangos que corresponden a las diferencias positivas debería ser casi igual al total de los rangos que corresponden a las diferencias negativas. 
 
-Se conoce la esperanza del estimador como: 
+## Método (continuación)
 
-<div class="row centered">
-![](Wilcoxon3.PNG)
-</div>
 
-Se concluye el rechazo de la hipótesis nula si: 
 
-<div class="row centered">
-![](Wilcoxon4.PNG)
-</div>
 
-## Tabla test Wilcoxon
+## Tabla comparativa
 
-<div class="row centered">
-```{r, out.width = "600px", fig.align='center'}
+```{r, out.width = "500px", fig.align='center'}
 knitr::include_graphics("WilcoxonTabla.PNG")
 ```
 
-<font size="3">
-[Real Statistics Using Excel](http://www.real-statistics.com/statistics-tables/wilcoxon-signed-ranks-table/
-)
-</font>
-</div>
-## Ejemplo
 
-<div class="row centered">
-![](WilcoxonejA.PNG)
-<br>
-![](WilcoxonejB.PNG)
-</div>
+
+## Aproximación normal para muestras grandes.
+
+
+Para $n\geq15$ podemos utilizar: 
+
+$$Z = \frac{W_{+}-\mu_{w_{+}}}{\sigma_{w_{+}}} \sim N (\mu_{w_{+}},\sigma_{w_{+}} )$$ 
+
+para determinar la región crítica para la prueba.
+
+Con: 
+
+$$\mu_{w_{+}}=\frac{n(n+1)}{4}\ \ \ \sigma_{w_{+}}=\frac{n(n+1)(2n+1)}{24}$$
+
+## Prueba de la suma de rangos de Wilcoxon.
+
+Objetivo: Probar la igualdad de las medias de dos distribuciones continuas no normales y cuyas muestras son independientes (alternativa a prueba t de dos muestras).
+
+*Se puede usar en reemplazo de la prueba t, pero tiene menor potencia en caso de poblaciones normales.*
+
+$$H_{0} : \tilde{\mu_{1}} =\tilde{\mu}_{2}$$
+Consideramos :
+$$n_{1}: número\ de\ observaciones\ de\ la\ muestra\ más\ pequeña.$$
+$$n_{2}: número\ de\ observaciones\ de\ la\ muestra\ más\ grande$$
+Se ordenan las observaciones $n_{1}$ y $n_{2}$ juntando ambas muestras de forma ascendente y se sustituyen en un rango de 1,2,3,$\dots$,$n_{1}+n_{2}$, promediando valores repetidos. 
+
+Además: 
+$$w_{1} = suma\ de\ rangos\ de\ n_{1}$$
+$$w_{2} = suma\ de\ rangos\ de\ n_{2}$$
+El total $w_{1} +w_{2}$ depende sólo del número de observaciones en las dos muestras. 
+
+
+## continuación
+
+<font size="3">
+La expresión: 
+$$w_{1} + w_{2}= \frac{(n_{1}+n_{2})(n_{1}+n_{2}+1)}{2}$$
+corresponde a la suma arimetica de los enteros 1,2,3, $\dots$,$n_{1}+n_{2}$. 
+
+$W_{1}\ y\ W_{2}$ son valores de las variables aleatorias $W_{1}\ y\ W_{2}$, respectivamente. 
+
+En general, 
+
+|$H_{0}$|$H_{1}$|$w_{1}$|$w_{2}$|Conclusión|
+|:-----:|:-----:|:-----:|:-----:|:--------:|
+|$\tilde{\mu_{1}} =\tilde{\mu}_{2}$|$\tilde{\mu_{1}} \neq\tilde{\mu}_{2}$|pequeña|pequeña|rechazar $H_{0}$| 
+|$\tilde{\mu_{1}} =\tilde{\mu}_{2}$|$\tilde{\mu_{1}} <\tilde{\mu}_{2}$|pequeña|grande|rechazar $H_{0}$|
+|$\tilde{\mu_{1}} =\tilde{\mu}_{2}$|$\tilde{\mu_{1}} >\tilde{\mu}_{2}$|grande|pequeña|rechazar $H_{0}$| 
+
+</font>
+
+## Estadístico $U$
+
+Definimos $u_{1} = w_{1} - \frac{n_{1}(n_{1}+1)}{2}$ o $u_{2} = w_{2} - \frac{n_{2}(n_{2}+1)}{2}$ del estadístico relacionado $U_{1}$ o $U_{2}$, o en el valor de $u=min[u_{1},u_{2}]$ del estadístico $U$.
+
+$U_{1}$ y $U_{2}$ tienen distribuciones muestrales simétricas y toman valores en el intervalo de $0$ a $n_{1}n_{2}$, tales que $u_{1}+u_{2} =n_{1}\times n{2}$
+
+*U1 será pequeña cuando w1 sea pequeña, y u2 será pequeña cuando w2 sea pequeña. Se rechaza H0 siempre que los estadísticos apropiados U1,U2, o U tomen un valor menor o igual que el calor crítico dado en la tabla*
+
+## Tabla estadístico U
+
+
+
+|$H_{0}$|$H_{1}$|Calcular|
+|:-----:|:-----:|:------:|
+|$\tilde{\mu_{1}} =\tilde{\mu}_{2}$|$\tilde{\mu_{1}} \neq\tilde{\mu}_{2}$|$u$| 
+|$\tilde{\mu_{1}} =\tilde{\mu}_{2}$|$\tilde{\mu_{1}} <\tilde{\mu}_{2}$|$u_{1}$|
+|$\tilde{\mu_{1}} =\tilde{\mu}_{2}$|$\tilde{\mu_{1}} >\tilde{\mu}_{2}$|$u_{2}$|
+
+
+Si el valor de $u_{1}, u_{2} o u$ es menor o igual que el valor crítico, se rechaza la hipótesis nula al nivel de significancia que se indica en la tabla. 
+
+## Tabla estadístico U.
+
+
+
+
+## Teoría normal de aproximación para dos muestras. 
+
+Cuando $n_{1}$ y $n_{2}$ exceden a 8, la distribución muestral de $U_{1} (o U_{2})$ se aproxima a la distribución normal con media y varianza dadas por: 
+
+$$\mu_{U_{1}}=\frac{n_{1}\times{n_{2}}}{2}\ \ \ \sigma_{U_{1}}=\frac{n_{1}n_{2}(n_{1}+n_{2}+1)}{12}$$
+
+Cuando $n_{2}\geq20$, el valor máximo de la tabla y $n_{1}\geq{9}$ se puede utiliar el estadístico: 
+
+$$Z = \frac{U_{1}-\mu_{U_{1}}}{\sigma_{U_{1}}} \sim N(\mu_{U_{1}},\sigma_{U_{1}} )$$ 
+
 
 ## Referencias
 
