@@ -34,6 +34,7 @@ library(PairedData)
 
 
 ## Wilcoxon Test datos no pareados
+## Dataset de : http://calcnet.mth.cmich.edu/org/spss/prj_new_drugdata.htm
 marcaA<-c(2.1,4.0,6.3,5.4,4.8,3.7,6.1,3.3)
 marcaB<-c(4.1,0.6,3.1,2.5,4.0,6.2,1.6,2.2,1.9,5.4)
 
