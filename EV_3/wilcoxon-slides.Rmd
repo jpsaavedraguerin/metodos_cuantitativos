@@ -44,7 +44,7 @@ Población simétrica:se anulan signos y no rechazamos $H_{0}$
 
 Estadistico de prueba: $X : número\ de\ elementos\ con\ signo\ "+"\ en\ la\ muestra$. 
 
-$$X\sim{bin(\frac{1}{2})}$$
+$$X\sim{b(\frac{1}{2})}$$
 Rechaza $H_{0}: \tilde{\mu} =\tilde{\mu}_{0}$ en favor de:   
 $H_{1}: \tilde{\mu} <\tilde{\mu}_{0}$: Prop. "+" suficientemente $<\frac{1}{2}$ (x pequeño)  
 $H_{1}: \tilde{\mu} >\tilde{\mu}_{0}$: Prop. "+" suficientemente $>\frac{1}{2}$ (x grande)  
