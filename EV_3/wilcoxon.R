@@ -43,11 +43,11 @@ marcas <- data.frame(marca = rep(c("marcaA","marcaB")), nicotina = c(marcaA,marc
 marcas
 
 boxplot(nicotina ~ marca, data = marcas)
-wilcox.test(marcaA,marcaB,alternative = "two.sided",correct = FALSE)
+wilcox.test(marcaA,marcaB,alternative = "two.sided",mu = 0,correct = FALSE,exact = FALSE,conf.level = 0.95)
 
 
 ##Wilcoxon Test Datos Pareados
-dataDrug <- read.csv("EV_3/newdrug(excel2007).csv",header = TRUE,sep = ";",
+dataDrug <- read.csv("EV_3/newdrug(excel2007)_2.csv",header = TRUE,sep = ";",
                      colClasses =c(NA,NA,NA,NA,"numeric","numeric") )
 
 antes<-dataDrug$Before_exp_BP
@@ -55,6 +55,9 @@ despues<-dataDrug$After_exp_BP
 testdroga<-data.frame(med=c("antes","despues"),
                       rend=c(antes,despues))
 boxplot(rend~med,data=testdroga)
+
+shapiro.test(antes)
+shapiro.test(despues)
 
 testdroga
 
@@ -76,6 +79,6 @@ library(PairedData)
 dp <- paired(antes, despues)
 plot(dp, type = "profile") + theme_bw()
 
-wilcox.test(antes,despues,paired = TRUE)
+wilcox.test(antes,despues,paired = TRUE,exact = FALSE)
 
 

@@ -1,5 +1,5 @@
 ---
-title: "Wilcoxon"
+title: "Test de Wilcoxon"
 author: "Juan Pablo Saavedra"
 date: "9/1/2020"
 output: ioslides_presentation
@@ -94,7 +94,7 @@ knitr::include_graphics("WilcoxonRangoSigno1.PNG")
 ```
   
   
-Rechazamos $H_{0}$ si $w_{+},w_{-} o w$ es **menor o igual que** valor tabulado.
+Rechazamos $H_{0}$ si $w_{+},w_{-}\ o\ w$ es **menor o igual que** valor tabulado.
 
 
 ## Tabla de valores críticos
@@ -164,9 +164,9 @@ En general,
 
 Definimos $u_{1} = w_{1} - \frac{n_{1}(n_{1}+1)}{2}$ o $u_{2} = w_{2} - \frac{n_{2}(n_{2}+1)}{2}$ del estadístico relacionado $U_{1}$ o $U_{2}$, o en el valor de $u=min[u_{1},u_{2}]$ del estadístico $U$.
 
-$U_{1}$ y $U_{2}$ tienen distribuciones muestrales simétricas y toman valores en el intervalo de $0$ a $n_{1} \times n_{2}$, tales que $u_{1}+u_{2} =n_{1}\times n{2}$
+$U_{1}$ y $U_{2}$ tienen distribuciones muestrales simétricas y toman valores en el intervalo de $0$ a $n_{1} \times n_{2}$, tales que $u_{1}+u_{2} =n_{1}\times n_{2}$
 
-*$u_{1}$ será pequeña cuando $w_{1}$ sea pequeña, y $u_{2}$ será pequeña cuando $w_{2}$ sea pequeña. Se rechaza $H_{0}$ siempre que los estadísticos apropiados $U_{1},U_{2}$, o $U$ tomen un valor menor o igual que el calor crítico dado en la tabla*
+*$u_{1}$ será pequeña cuando $w_{1}$ sea pequeña, y $u_{2}$ será pequeña cuando $w_{2}$ sea pequeña. Se rechaza $H_{0}$ siempre que los estadísticos apropiados $U_{1},U_{2}$, o $U$ tomen un valor menor o igual que el valor crítico dado en la tabla*
 
 ## Tabla resumen hipótesis para estadístico $U$
 
