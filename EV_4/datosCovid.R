@@ -656,3 +656,136 @@ boxplot(rstandard(fit11),rstandard(fit11b))
 boxplot(rstandard(fit11),rstandard(fit11b))
 boxplot(rstandard(fit11),rstandard(fit11b))
 boxplot(rstandard(fit11),rstandard(fit11b))
+
+
+
+
+
+###################################
+##  Randomizando los datos
+###################################
+
+#Randomizar data
+
+data.aux<-subset(dataTotal[39:211,],select=c(1:ncol(dataTotal)))
+data.aleatoria <- data.aux[sample(1:nrow(data.aux)),]
+
+
+nacional<-data.frame(PCR=data.aleatoria$PCR.Nac,casos=data.aleatoria$Casos.nuevos.totales)
+valparaiso<-data.frame(PCR=data.aleatoria$PCR.Valpo, casos=data.aleatoria$Valparaiso)
+antofagasta<-data.frame(PCR=data.aleatoria$PCR.Antofa, casos=data.aleatoria$Antofagasta)
+
+#colnames(nacional)[c(1,2)]<-c("casos","PCR")
+#colnames(valparaiso)[c(1,2)]<-c("casos","PCR")
+#colnames(antofagasta)[c(1,2)]<-c("casos","PCR")
+
+par(mfrow=c(1,3))
+plot(nacional, main="Nacional")
+plot(valparaiso, main="Valparaíso")
+plot(antofagasta, main="Antofagasta")
+
+#Transformación
+
+nacional.log<-data.frame(log.PCR=log(nacional$PCR),log.casos=log(nacional$casos))
+valparaiso.log<-data.frame(log.PCR=log(valparaiso$PCR),log.casos=log(valparaiso$casos))
+antofagasta.log<-data.frame(log.PCR=log(antofagasta$PCR),log.casos=log(antofagasta$casos))
+
+plot(nacional.log, main="Nacional", xlab="log(PCR)", ylab="log(casos)")
+plot(valparaiso.log, main="Valparaíso", xlab="log(PCR)", ylab="log(casos)")
+plot(antofagasta.log, main="Antofagasta", xlab="log(PCR)", ylab="log(casos)")
+
+#Correlación
+cor.test(nacional.log$log.PCR,nacional.log$log.casos)
+cor.test(valparaiso.log$log.PCR,valparaiso.log$log.casos)
+cor.test(antofagasta.log$log.PCR,antofagasta.log$log.casos)
+
+#Modelo
+fitnacional<-lm(nacional.log$log.casos~nacional.log$log.PCR)
+fitvalparaiso<-lm(valparaiso.log$log.casos~valparaiso.log$log.PCR)
+fitantofagasta<-lm(antofagasta.log$log.casos~antofagasta.log$log.PCR)
+
+#Plot residuos
+rnacional<-data.frame(valores.ajustados=fitted.values(fitnacional),residuos.estandarizados=rstandard(fitnacional))
+rvalparaiso<-data.frame(valores.ajustados=fitted.values(fitvalparaiso),residuos.estandarizados=rstandard(fitvalparaiso))
+rantofagasta<-data.frame(valores.ajustados=fitted.values(fitantofagasta),residuos.estandarizados=rstandard(fitantofagasta))
+
+plot(rnacional,main="Nacional", xlab="Valores ajustados", ylab="Residuos estandarizados")
+abline(h=c(2,-2), col="red")
+plot(rvalparaiso,main="Valparaíso", xlab="Valores ajustados", ylab="Residuos estandarizados")
+abline(h=c(2,-2), col="red")
+plot(rantofagasta,main="Antofagasta", xlab="Valores ajustados", ylab="Residuos estandarizados")
+abline(h=c(2,-2), col="red")
+
+
+#Eliminar pares de datos con residuos fuera de (-2,2)
+nacional.trat<-nacional.log[-c(which(rnacional$residuos.estandarizados %in% rnacional$residuos.estandarizados[rnacional$residuos.estandarizados>2]), 
+                                which(rnacional$residuos.estandarizados %in% rnacional$residuos.estandarizados[rnacional$residuos.estandarizados<(-2)])),]
+valparaiso.trat<-valparaiso.log[-c(which(rvalparaiso$residuos.estandarizados %in% rvalparaiso$residuos.estandarizados[rvalparaiso$residuos.estandarizados>2]), 
+                           which(rvalparaiso$residuos.estandarizados %in% rvalparaiso$residuos.estandarizados[rvalparaiso$residuos.estandarizados<(-2)])),]
+antofagasta.trat<-antofagasta.log[-c(which(rantofagasta$residuos.estandarizados %in% rantofagasta$residuos.estandarizados[rantofagasta$residuos.estandarizados>2]), 
+                           which(rantofagasta$residuos.estandarizados %in% rantofagasta$residuos.estandarizados[rantofagasta$residuos.estandarizados<(-2)])),]
+
+
+
+
+#Nuevo fit
+
+fitnacional.trat<-lm(nacional.trat$log.casos~nacional.trat$log.PCR)
+fitvalparaiso.trat<-lm(valparaiso.trat$log.casos~valparaiso.trat$log.PCR)
+fitantofagasta.trat<-lm(antofagasta.trat$log.casos~antofagasta.trat$log.PCR)
+
+
+##
+rnacional.trat<-data.frame(valores.ajustados=fitted.values(fitnacional.trat),residuos.estandarizados=rstandard(fitnacional.trat))
+rvalparaiso.trat<-data.frame(valores.ajustados=fitted.values(fitvalparaiso.trat),residuos.estandarizados=rstandard(fitvalparaiso.trat))
+rantofagasta.trat<-data.frame(valores.ajustados=fitted.values(fitantofagasta.trat),residuos.estandarizados=rstandard(fitantofagasta.trat))
+
+
+#Plotear residuos
+plot(rnacional.trat,main="Nacional", xlab="Valores ajustados", ylab="Residuos estandarizados")
+abline(h=c(2,-2), col="red")
+plot(rvalparaiso.trat,main="Valparaíso", xlab="Valores ajustados", ylab="Residuos estandarizados")
+abline(h=c(2,-2), col="red")
+plot(rantofagasta.trat,main="Antofagasta", xlab="Valores ajustados", ylab="Residuos estandarizados")
+abline(h=c(2,-2), col="red")
+
+
+#Plot de fit
+par(mfrow=c(2,2))
+plot(fitnacional.trat)
+plot(fitvalparaiso.trat)
+plot(fitantofagasta.trat)
+
+#Supuesto Normalidad
+
+shapiro.test(rstandard(fitnacional.trat))
+shapiro.test(rstandard(fitvalparaiso.trat))
+shapiro.test(rstandard(fitantofagasta.trat))
+
+#Supuesto independencia
+
+dwtest(fitnacional.trat,alternative = "two.sided")
+dwtest(fitvalparaiso.trat,alternative = "two.sided")
+dwtest(fitantofagasta.trat,alternative = "two.sided")
+
+#Supuesto homocedasticidad
+
+gqtest(fitnacional.trat,alternative = "two.sided")
+gqtest(fitvalparaiso.trat,alternative = "two.sided")
+gqtest(fitantofagasta.trat,alternative = "two.sided")
+
+
+
+#Modelos propuestos
+nac<-function(x,a,b){
+  return (exp(a)*x^(b))
+}
+
+
+par(mfrow=c(3,1))
+plot(nacional.trat, main="Nacional", xlab="log(PCR)", ylab="log(casos)")
+abline(fitnacional.trat, col="green")
+plot(nacional.trat, main="Valparaíso", xlab="log(PCR)", ylab="log(casos)")
+abline(fitnacional.trat, col="green")
+plot(nacional.trat, main="Antofagasta", xlab="log(PCR)", ylab="log(casos)")
+abline(fitnacional.trat, col="green")
